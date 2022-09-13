@@ -12,15 +12,24 @@ def iprange():
     second = random.randint(0,255)
     first = 85
     second = 214
-    iprange = str(first) + '.' + str(second) + ".0.0/16"
+    iprange = str(first) + '.' + str(second) + ".76.0/24"
     print(iprange)
     return iprange
 
 
-def printplayers(onlinenr, samplepl):
-    if onlinenr > 0:
-        for player in samplepl:
+#get players from server json data
+def getplayers(onlinenr, samplepl):
+    if onlinenr == 0:
+        return
+    if onlinenr <= 12:
+        if onlinenr != len(samplepl):
+            print("No player data available")
+            return
+    for player in samplepl:
+        if len(player["name"]) <= 16:
             print(player)
+        else:
+            print("Error getting player")
 
 
 #scan ip range for port 25565
@@ -55,4 +64,4 @@ else:
             print(ip)
             print(str(onlinenr) + "/" + str(max))
             print(version)
-            printplayers(onlinenr, samplepl)
+            getplayers(onlinenr, samplepl)

@@ -84,13 +84,12 @@ def getplayers(onlinenr, samplepl):
         return playerlist
     if onlinenr <= 12:
         if onlinenr != len(samplepl):
-            print("No player data available")
             return playerlist
     for player in samplepl:
-        if len(player["name"]) <= 16 and len(player["id"]) == general.uuidlen:
+        if len(player["name"]) <= 16 and \
+        len(player["name"]) > 0 and \
+        len(player["id"]) == general.uuidlen:
             playerlist.append(player)
-        else:
-            print("Error getting player")
     return playerlist
     
 

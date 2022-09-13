@@ -1,4 +1,4 @@
-CREATE TABLE servers (
+CREATE TABLE IF NOT EXISTS servers (
     id INT NOT NULL AUTO_INCREMENT,
     ip INT,
     current_players INT,
@@ -7,9 +7,10 @@ CREATE TABLE servers (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE player (
+CREATE TABLE IF NOT EXISTS player (
     id INT NOT NULL AUTO_INCREMENT,
     server_id INT,
     playeruuid VARCHAR(36),
-    playername VARCHAR(16)
-)
+    playername VARCHAR(16),
+    PRIMARY KEY (id)
+);

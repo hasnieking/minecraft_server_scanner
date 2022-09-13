@@ -1,8 +1,15 @@
 CREATE TABLE servers (
-    ip int,
-    current_players int,
-    max_players int,
-    version varchar(100),
-    players varchar(500),
-    PRIMARY KEY (ip)
+    id INT NOT NULL AUTO_INCREMENT,
+    ip INT,
+    current_players INT,
+    max_players INT,
+    version varchar(128),
+    PRIMARY KEY (id)
 );
+
+CREATE TABLE player (
+    id INT NOT NULL AUTO_INCREMENT,
+    server_id INT,
+    playeruuid VARCHAR(36),
+    playername VARCHAR(16)
+)

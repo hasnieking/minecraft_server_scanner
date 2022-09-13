@@ -1,0 +1,8 @@
+{
+    "database": {
+        "host": "localhost",
+        "user":"mcscanner",
+        "password":"Password1!",
+        "database": "mcservers"
+    }
+}

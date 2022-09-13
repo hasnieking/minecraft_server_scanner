@@ -7,17 +7,26 @@ import random
 maxrate = 250
 
 #set ip range
-first = random.randint(0,255)
-second = random.randint(0,255)
-first = 85
-second = 214
-iprange = str(first) + '.' + str(second) + ".0.0/16"
-print(iprange)
+def iprange():
+    first = random.randint(0,255)
+    second = random.randint(0,255)
+    first = 85
+    second = 214
+    iprange = str(first) + '.' + str(second) + ".0.0/16"
+    print(iprange)
+    return iprange
+
+
+def printplayers(onlinenr, samplepl):
+    if onlinenr > 0:
+        for player in samplepl:
+            print(player)
+
 
 #scan ip range for port 25565
 mas = masscan.PortScanner()
 try:
-    mas.scan(iprange, ports='25565', arguments=('--max-rate ' + str(maxrate) + " --excludefile exclude.conf"))
+    mas.scan(iprange(), ports='25565', arguments=('--max-rate ' + str(maxrate) + " --excludefile exclude.conf"))
     ips = mas.all_hosts
 
 
@@ -33,6 +42,7 @@ else:
             max = int(status["players"]["max"])
             version = status["version"]["name"]
             onlinenr = int(status["players"]["online"])
+            samplepl = list
             if onlinenr > 0:
                 samplepl = status["players"]["sample"]
         #catch exception
@@ -45,6 +55,4 @@ else:
             print(ip)
             print(str(onlinenr) + "/" + str(max))
             print(version)
-            if int(onlinenr) > 0:
-                for player in samplepl:
-                    print(player)
+            printplayers(onlinenr, samplepl)

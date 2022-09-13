@@ -1,4 +1,8 @@
 {
+    "general": {
+        "print": true
+    },
+
     "database": {
         "host": "localhost",
         "user":"mcscanner",

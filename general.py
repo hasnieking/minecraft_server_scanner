@@ -1,6 +1,8 @@
 import json
 import re
 
+uuidlen = 36
+
 #read json file
 def readJSON(filename):
     f = open(filename, "r")

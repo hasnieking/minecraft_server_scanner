@@ -3,16 +3,26 @@ import masscan
 from mcstatus import JavaServer
 import random
 import dbHandler
+import general
 
 #masscan rate
 maxrate = 250
 
+#range to scan
+range_addition = ".76.0/24"
+
+#minecraft port range
+portrange = "25565"
+
 
 def start():
+    db = dbHandler.createDBConnector()
+    servers = []
+
     #scan ip range for port 25565
     mas = masscan.PortScanner()
     try:
-        mas.scan(iprange(), ports='25565', arguments=('--max-rate ' + str(maxrate) + " --excludefile exclude.conf"))
+        mas.scan(iprange(), ports=portrange, arguments=('--max-rate ' + str(maxrate) + " --excludefile exclude.conf"))
         ips = mas.all_hosts
 
     except Exception as e:
@@ -21,11 +31,14 @@ def start():
     else:
         for ip in ips:
             #get server info
-            serverinfo(ip)
+            serverinfo(servers, ip)
+
+    dbHandler.saveservers(db, servers)
             
 
 
-def serverinfo(ip):
+#get server information through mcstatus
+def serverinfo(servers, ip):
     try:
         server = JavaServer.lookup(ip)
         status = server.status().raw
@@ -41,37 +54,50 @@ def serverinfo(ip):
         print(ip + ": " + str(e))
     #prints info
     else:
-        print('\n')
-        print(ip)
-        print(str(onlinenr) + "/" + str(max))
-        print(version)
-        getplayers(onlinenr, samplepl)
+        playerlist = getplayers(onlinenr, samplepl)
+        server = (ip, onlinenr, max, version, playerlist)
+        printserver(server)
+        servers.append(server)
+        
 
-#set ip range
+
+#set ip range to scan
 def iprange():
     first = random.randint(0,255)
     second = random.randint(0,255)
     first = 85
     second = 214
-    iprange = str(first) + '.' + str(second) + ".76.0/24"
+    iprange = str(first) + '.' + str(second) + range_addition
     print(iprange)
     return iprange
 
 
+
 #get players from server json data
 def getplayers(onlinenr, samplepl):
+    playerlist = []
     if onlinenr == 0:
-        return
+        return playerlist
     if onlinenr <= 12:
         if onlinenr != len(samplepl):
             print("No player data available")
-            return
+            return playerlist
     for player in samplepl:
-        if len(player["name"]) <= 16:
-            print(player)
+        if len(player["name"]) <= 16 and len(player["id"]) == general.uuidlen:
+            playerlist.append(player)
         else:
             print("Error getting player")
+    return playerlist
+    
 
+#print server details to stdout
+def printserver(server):
+    print("ip: " + server[0])
+    print("Version: " + server[3])
+    print("Players: " + str(server[1]) + "/" + str(server[2]))
+    for player in server[4]:
+        print(player)
+    print("\n")
 
 
 

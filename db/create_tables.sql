@@ -3,11 +3,11 @@ CREATE TABLE IF NOT EXISTS servers (
     ip INT,
     current_players INT,
     max_players INT,
-    version varchar(128),
+    mcversion varchar(128),
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS player (
+CREATE TABLE IF NOT EXISTS players (
     id INT NOT NULL AUTO_INCREMENT,
     server_id INT,
     playeruuid VARCHAR(36),

@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS servers (
     id INT NOT NULL AUTO_INCREMENT,
-    ip INT,
+    ip VARCHAR(15),
     current_players INT,
     max_players INT,
     mcversion varchar(128),

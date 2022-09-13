@@ -16,8 +16,3 @@ def readText(filename):
     text = f.read()
     f.close()
     return text
-
-
-def removeNonDec(string):
-    nondec = re.sub(r'[^0-9]', '', string)
-    return nondec

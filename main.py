@@ -16,7 +16,9 @@ portrange = "25565"
 
 
 def start():
-    db = dbHandler.createDBConnector()
+    #get database ready
+    dbHandler.readyDB()
+
     servers = []
 
     #scan ip range for port 25565
@@ -33,7 +35,7 @@ def start():
             #get server info
             serverinfo(servers, ip)
 
-    dbHandler.saveservers(db, servers)
+    dbHandler.saveservers(servers)
             
 
 

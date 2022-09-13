@@ -9,7 +9,7 @@ import general
 maxrate = 250
 
 #range to scan
-range_addition = ".76.0/24"
+range_addition = ".0.0/16"
 
 #minecraft port range
 portrange = "25565"
@@ -18,7 +18,12 @@ portrange = "25565"
 def start():
     #get database ready
     dbHandler.readyDB()
+    while True:
+        loop()
 
+
+#main loop
+def loop():
     servers = []
 
     #scan ip range for port 25565
@@ -36,7 +41,6 @@ def start():
             serverinfo(servers, ip)
 
     dbHandler.saveservers(servers)
-            
 
 
 #get server information through mcstatus
@@ -67,8 +71,6 @@ def serverinfo(servers, ip):
 def iprange():
     first = random.randint(0,255)
     second = random.randint(0,255)
-    first = 85
-    second = 214
     iprange = str(first) + '.' + str(second) + range_addition
     print(iprange)
     return iprange
